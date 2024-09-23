@@ -1,17 +1,15 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContacts } from "./redux/contactsOps"; // Убедитесь, что путь правильный
-import { selectContacts } from "./redux/contactsSlice";
-import { selectNameFilter } from "./redux/filtersSlice";
+import { fetchContacts } from "./redux/contactsOps";
+import { selectFilteredContacts } from "./redux/contactsSlice";
 import ContactForm from "./components/ContactForm/ContactForm";
-import ContactList from "./components/ContartList/ContactList";
+import ContactList from "./components/ContaсtList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import styles from "./App.module.css";
 
 const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectNameFilter);
+  const filteredContacts = useSelector(selectFilteredContacts);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,13 +23,9 @@ const App = () => {
     fetchData();
   }, [dispatch]);
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
-
   return (
     <div className={styles.container}>
-      <h1>Телефонная книга</h1>
+      <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
       <ContactList contacts={filteredContacts} />
